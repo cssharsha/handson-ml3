@@ -13,7 +13,7 @@ ARG UBUNTU_VERSION=20.04
 
 ARG ARCH=
 ARG CUDA=11.2
-FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.1-base-ubuntu${UBUNTU_VERSION} as base
+FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.2-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
 ARG ARCH
@@ -201,3 +201,12 @@ RUN cat /tmp/bashrc.bash >> ${home}/.bashrc \
 #RUN mkdir -p ${home}/.jupyter && \
 #    echo 'c.NotebookApp.password = u"sha1:c6bbcba2d04b:f969e403db876dcfbe26f47affe41909bd53392e"' \
 #    >> ${home}/.jupyter/jupyter_notebook_config.py
+
+# Activate conda environment in .bashrc
+RUN echo "conda activate homl3" >> ~/.bashrc
+
+# Make RUN commands use the new environment
+SHELL ["conda", "run", "-n", "homl3", "/bin/bash", "-c"]
+
+# Activate conda environment by default
+CMD ["conda", "run", "--no-capture-output", "-n", "homl3", "/bin/bash"]

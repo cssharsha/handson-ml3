@@ -1,0 +1,25 @@
+{
+    "name": "Conda and Bazel Development Container",
+    "dockerComposeFile": "../docker/docker-compose.yml",
+    "service": "handson-ml3",
+    "workspaceFolder": "/home/devel/handson-ml3",
+    "customizations": {
+        "vscode": {
+
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "python.pythonPath": "/opt/conda/envs/homl3/bin/python",
+                "python.defaultInterpreterPath": "/opt/conda/envs/homl3/bin/python",
+                "jupyter.pythonPath": "/opt/conda/envs/homl3/bin/python"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "bazelbuild.vscode-bazel"
+            ]
+        }
+    },
+    "forwardPorts": [8888],
+    "postCreateCommand": "conda init bash && conda activate homl3",
+    "remoteUser": "devel"
+}
